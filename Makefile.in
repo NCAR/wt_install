@@ -4,7 +4,7 @@
 ###
 
 # The number of jobs using by make
-JOBS = -j1
+JOBS = -j6
 # base arguments to Boost Jam
 BJA = ${JOBS} variant=debug inlining=off debug-symbols=on
 
