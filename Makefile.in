@@ -5,6 +5,8 @@
 
 # The number of jobs using by make
 JOBS = -j1
+# base arguments to Boost Jam
+BJA = ${JOBS} variant=debug inlining=off debug-symbols=on
 
 ###
 ### Settings by Autoconf
@@ -103,11 +105,11 @@ WT_DIR = wt-$(WT_VERSION)
 WT_PACKAGE = $(WT_DIR).tar.gz
 WT_DOWNLOAD_URL = http://prdownloads.sourceforge.net/witty/$(WT_PACKAGE)?download
 
-BOOST_BOOTSTRAP_ARGS = --prefix=$(BOOST_PREFIX) --with-libraries=filesystem,date_time,regex,program_options,signals,system,thread,random
+BOOST_BOOTSTRAP_ARGS = --prefix=$(BOOST_PREFIX) --with-libraries=filesystem,date_time,regex,program_options,signals,system,thread,random,test
 ifeq ($(strip $(WT_CPP_11_MODE)),)
-BOOST_BJAM_ARGS = $(JOBS)
+BOOST_BJAM_ARGS = $(BJA)
 else
-BOOST_BJAM_ARGS = $(JOBS) cxxflags=$(WT_CPP_11_MODE)
+BOOST_BJAM_ARGS = $(BJA) cxxflags=$(WT_CPP_11_MODE)
 endif
 
 CLEAN_FILES = config.status config.log config.cache autom4te.cache $(STAGING)
