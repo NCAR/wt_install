@@ -1,0 +1,20 @@
+#!/bin/sh
+/usr/bin/aclocal
+/usr/bin/autoconf
+#export CC=clang
+#export CXX=clang
+#export CXXFLAGS='-fPIC'
+#export CFLAGS='-fPIC'
+boost=1_57_0
+wt=3.3.4
+echo 'wt = ' ${wt}
+boost_prefix=/usr/local/boost_${boost}
+echo boost_prefix=${boost_prefix}
+
+./configure --prefix=${boost_prefix}/wt-${wt}  --with-wt-version=${wt} \
+--with-boost-version=${boost}  BOOST_PREFIX=${boost_prefix}
+make fetch 
+make -k deps
+make -k deps-install
+make wt
+make wt-install

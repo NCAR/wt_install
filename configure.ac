@@ -1,4 +1,4 @@
-AC_INIT([Wt jumbo], [3.2.0], [koen@emweb.be])
+AC_INIT([Wt jumbo], [3.2.0], [vanandel@ucar.edu])
 
 AC_PREREQ([2.59])
 
@@ -23,7 +23,7 @@ AC_ARG_WITH([boost-version],
 	[AS_HELP_STRING([--with-boost-version],
 	  [Boost version (e.g. '1_59_0') ])],
 	[],
-	[with_boost_version=1_48_0])
+	[with_boost_version=1_57_0])
 
 AC_MSG_NOTICE([Setup for Wt version: $with_wt_version])
 
