@@ -6,7 +6,7 @@
 #export CXXFLAGS='-fPIC'
 #export CFLAGS='-fPIC'
 boost=1_57_0
-wt=3.3.4
+wt=3.3.5
 echo 'wt = ' ${wt}
 boost_prefix=/usr/local/boost_${boost}
 echo boost_prefix=${boost_prefix}

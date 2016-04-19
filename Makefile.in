@@ -104,8 +104,11 @@ GM_LDFLAGS = $(PNG_LDFLAGS) $(FT_LDFLAGS)
 GM_INSTALL_LDFLAGS = $(SYSTEM_LIBPNG_LDFLAGS) -L$(PREFIX)/lib
 
 WT_DIR = wt-$(WT_VERSION)
-WT_PACKAGE = $(WT_DIR).tar.gz
-WT_DOWNLOAD_URL = http://prdownloads.sourceforge.net/witty/$(WT_PACKAGE)?download
+#WT_PACKAGE = $(WT_DIR).tar.gz
+# koen changed his naming scheme
+WT_PACKAGE = $(WT_VERSION).tar.gz
+#WT_DOWNLOAD_URL = http://prdownloads.sourceforge.net/witty/$(WT_PACKAGE)?download
+WT_DOWNLOAD_URL = https://github.com/kdeforche/wt/archive/$(WT_PACKAGE)
 
 BOOST_BOOTSTRAP_ARGS = --prefix=$(BOOST_PREFIX) --with-libraries=filesystem,date_time,regex,program_options,signals,system,thread,random,test
 ifeq ($(strip $(WT_CPP_11_MODE)),)
@@ -277,9 +280,10 @@ wt: $(WT_DIR)
 ifeq ($(WT_VERSION),git)
 	-cd $(WT_DIR); $(GIT) pull;
 endif
+	-rm -fr wt-build
 	-mkdir wt-build;
 	cd wt-build && cmake ../$(WT_DIR) -DCMAKE_INSTALL_PREFIX=$(PREFIX) -DBOOST_ROOT=$(BOOST_PREFIX) \
-	  -DUSERLIB_PREFIX=$(PREFIX) -DBOOST_PREFIX=$(BOOST_PREFIX) -DWT_CPP_11_MODE=$(WT_CPP_11_MODE) -DCONFIGDIR=$(CONFIGDIR);
+	  -DUSERLIB_PREFIX=$(PREFIX) -DBOOST_PREFIX=$(BOOST_PREFIX) -DWT_CPP_11_MODE=$(WT_CPP_11_MODE) -DCONFIGDIR=$(CONFIGDIR) -DBUILD_EXAMPLES=OFF -DBUILD_TESTS=OFF;
 	cd wt-build && $(MAKE) $(JOBS);
 	cd wt-build/examples && $(MAKE) $(JOBS);
 
@@ -352,4 +356,4 @@ $(WT_DIR): $(WT_PACKAGE)
 endif
 
 $(WT_PACKAGE):
-	@$(call wget,$(WT_DOWNLOAD_URL),$@)
+	@$(call wget,$(WT_DOWNLOAD_URL),$@) 
