@@ -141,7 +141,6 @@ all:	deps deps-install wt wt-install
 clean: \
 	boost-clean \
 	haru-clean \
-	fcgi-clean \
 	gm-clean \
 	wt-clean \
 	$(addsuffix -clean,$(GM_DEPS))
@@ -150,7 +149,6 @@ clean: \
 distclean: \
 	boost-distclean \
 	haru-distclean \
-	fcgi-distclean \
 	gm-distclean \
 	wt-distclean \
 	$(addsuffix -distclean,$(GM_DEPS))
