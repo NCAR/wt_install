@@ -156,26 +156,23 @@ distclean: \
 	$(addsuffix -distclean,$(GM_DEPS))
 	-rm -rf $(DIST_CLEAN_FILES) 
 
-fetch: \
+fetch: \ 		
 	boost-fetch \
 	haru-fetch \
-	fcgi-fetch \
 	gm-fetch \
 	$(addsuffix -fetch,$(GM_DEPS)) \
-	wt-fetch
+	wt-fetch          #fcgi-fetch 
 
-deps: \
+deps: \ 
 	boost \
 	gm \
-	haru \
-	fcgi
+	haru  	        #fcgi
 
-deps-install: \
+deps-install: \  
 	boost-install \
 	$(addsuffix -install,$(GM_DEPS)) \
 	gm-install \
-	haru-install \
-	fcgi-install
+	haru-install  # fcgi-install
 
 boost: deps/$(BOOST_DIR)
 	cd deps/$(BOOST_DIR); \
