@@ -154,19 +154,19 @@ distclean: \
 	$(addsuffix -distclean,$(GM_DEPS))
 	-rm -rf $(DIST_CLEAN_FILES) 
 
-fetch: \ 		
+fetch: \
 	boost-fetch \
 	haru-fetch \
 	gm-fetch \
 	$(addsuffix -fetch,$(GM_DEPS)) \
 	wt-fetch          #fcgi-fetch 
 
-deps: \ 
+deps: \
 	boost \
 	gm \
 	haru  	        #fcgi
 
-deps-install: \  
+deps-install: \
 	boost-install \
 	$(addsuffix -install,$(GM_DEPS)) \
 	gm-install \
