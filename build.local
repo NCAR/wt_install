@@ -17,5 +17,5 @@ echo boost_prefix=${boost_prefix}
 make fetch 
 make -k deps
 make -k deps-install
-make wt
-make wt-install
+make  -k wt
+make -k wt-install
