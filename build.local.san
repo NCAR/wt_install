@@ -1,22 +1,25 @@
 #!/bin/sh
 /usr/bin/aclocal
 /usr/bin/autoconf
-#export CC=clang
-#export CXX=clang
+export CC=clang
+export CXX=clang
 #export CXXFLAGS='-fPIC'
 #export CFLAGS='-fPIC'
-#boost=1_63_0
-boost=1_57_0
+export CFLAGS='-fPIC -fsanitize=address -fsanitize=leak -fno-omit-frame-pointer'
+export CXXFLAGS='-fPIC -fsanitize=address -fsanitize=leak -fno-omit-frame-pointer -fsanitize-address-use-after-scope '
+export LDFLAGS=-L${PREFIX}/lib
+boost=1_63_0
 wt=3.3.6
 echo 'wt = ' ${wt}
-boost_prefix=/usr/local/boost_${boost}
+boost_prefix=/usr/local/boost_san_${boost}
 mkdir -p $boost_prefix
 echo boost_prefix=${boost_prefix}
 
 ./configure --prefix=${boost_prefix}/wt-${wt}  --with-wt-version=${wt} \
 --with-boost-version=${boost}  BOOST_PREFIX=${boost_prefix}
 make fetch 
-make -k deps
+#make -k deps
 make -k deps-install
+exit 0
 make  -k wt
 make -k wt-install
