@@ -9,7 +9,7 @@ export boost=1_63_0
 #export boost=1_57_0
 export wt=3.3.6
 echo 'wt = ' ${wt}
-export boost_prefix=${HOME}/lrose/boost_${boost}
+export boost_prefix=${HOME}/spol_control/boost_${boost}
 mkdir -p $boost_prefix
 mkdir -p ${boost_prefix}/etc
 echo boost_prefix=${boost_prefix}
