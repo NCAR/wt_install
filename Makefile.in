@@ -26,7 +26,7 @@ GIT = @git@
 WT_CPP_11_MODE=@WT_CPP_11_MODE@
 
 # the location for Wt configuration.
-CONFIGDIR=$(BOOST_PREFIX)/etc/wt
+CONFIGDIR=$(PREFIX)/etc/wt
 
 ###
 ### Main makefile logic
