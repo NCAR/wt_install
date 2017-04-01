@@ -7,8 +7,6 @@
 JOBS = -j6
 # base arguments to Boost Jam
 BJA = ${JOBS} variant=debug inlining=off debug-symbols=on
-# the location for Wt configuration.
-CONFIGDIR=/usr/local/etc/wt
 
 ###
 ### Settings by Autoconf
@@ -26,6 +24,9 @@ SYSTEM_LIBFREETYPE = @system_libfreetype@
 WGET = @wget@
 GIT = @git@
 WT_CPP_11_MODE=@WT_CPP_11_MODE@
+
+# the location for Wt configuration.
+CONFIGDIR=$(BOOST_PREFIX)/etc/wt
 
 ###
 ### Main makefile logic
@@ -280,7 +281,7 @@ endif
 	cd wt-build && cmake ../$(WT_DIR) -DCMAKE_INSTALL_PREFIX=$(PREFIX) -DBOOST_ROOT=$(BOOST_PREFIX) \
 	  -DUSERLIB_PREFIX=$(PREFIX) -DBOOST_PREFIX=$(BOOST_PREFIX) -DWT_CPP_11_MODE=$(WT_CPP_11_MODE) -DCONFIGDIR=$(CONFIGDIR) -DBUILD_EXAMPLES=OFF -DBUILD_TESTS=OFF;
 	cd wt-build && $(MAKE) $(JOBS);
-	cd wt-build/examples && $(MAKE) $(JOBS);
+#	cd wt-build/examples && $(MAKE) $(JOBS);
 
 wt-install:
 	cd wt-build && $(MAKE) install;
