@@ -1,25 +1,53 @@
-#!/bin/sh
-/usr/bin/aclocal
-/usr/bin/autoconf
+#!/bin/bash
+
+export wt_version=3.3.6
+echo 'wt_version = ' ${wt_version}
+export PREFIX=/usr/local
+
+# go to dir
+
+cd ~/git/spol-control/deps/wt_install
+
+# untar wt
+
+tar xvfz tarfiles/${wt_version}.tar.gz
+
+# make build dir
+
+cd wt-${wt_version}
+mkdir build
+cd build
+
+# run cmake
+
+cmake -DCMAKE_INSTALL_PREFIX=/usr/local -DCONFIGDIR=/usr/local/etc ..
+
+# build and install
+
+make -j 8
+make install
+
+# automake
+
+#/usr/bin/aclocal
+#/usr/bin/autoconf
+
 #export CC=clang
 #export CXX=clang
 #export CXXFLAGS='-fPIC'
 #export CFLAGS='-fPIC'
-export boost=1_63_0
+#export boost=1_63_0
 #export boost=1_57_0
-export wt=3.3.6
-echo 'wt = ' ${wt}
 #export boost_prefix=${HOME}/spol_control/boost_${boost}
-export boost_prefix=/usr/local/boost_${boost}
-mkdir -p $boost_prefix
-mkdir -p ${boost_prefix}/etc
-echo boost_prefix=${boost_prefix}
-echo config_dir=${boost_prefix}/etc
 
-./configure --prefix=${boost_prefix}/wt-${wt}  --with-wt-version=${wt} \
---with-boost-version=${boost}  BOOST_PREFIX=${boost_prefix}
-make fetch 
-make -k deps
-make -k deps-install
-make  -k wt
-make -k wt-install
+#mkdir -p ${PREFIX}/etc
+#echo prefix=${PREFIX}
+#echo config_dir=${PREFIX}/etc
+
+#./configure --prefix=${PREFIX} --with-wt-version=${wt}
+
+#make fetch 
+#make -k deps
+#make -k deps-install
+#make  -k wt
+#make -k wt-install

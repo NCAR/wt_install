@@ -9,4 +9,3 @@ make.deps.out
 aclocal.m4
 run-example
 *.swp
-*.tar.gz
