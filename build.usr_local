@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export wt_version=3.3.6
+export wt_version=3.7
 echo 'wt_version = ' ${wt_version}
 export PREFIX=/usr/local
 
@@ -8,46 +8,60 @@ export PREFIX=/usr/local
 
 cd ~/git/spol-control/deps/wt_install
 
-# untar wt
+# Clone Wt's <version>-release branch into directory wt-<version>, if
+# we haven't already
 
-tar xvfz tarfiles/${wt_version}.tar.gz
+wt_srcdir="wt-${wt_version}"
+if [ ! -d "$wt_srcdir" ]; then
+    clone_cmd="git clone https://github.com/emweb/wt --branch ${wt_version}-release ${wt_srcdir}"
+    echo
+    echo ${clone_cmd}
 
-# make build dir
+    eval ${clone_cmd}
+fi
 
-cd wt-${wt_version}
-mkdir build
+# Run cmake to create and populate the <wd_srcdir>/build dir
+#
+# Note that we add BOOST_BIND_GLOBAL_PLACEHOLDERS to the compile flags
+# to avoid deprecation warnings that Wt 3 triggers when building
+# against modern versions of boost::bind
+
+cd ${wt_srcdir}
+cmake -DCMAKE_INSTALL_PREFIX=/usr/local -DCONFIGDIR=/usr/local/etc -DCMAKE_CXX_FLAGS=-DBOOST_BIND_GLOBAL_PLACEHOLDERS -S . -B build
 cd build
 
-# run cmake
-
-cmake -DCMAKE_INSTALL_PREFIX=/usr/local -DCONFIGDIR=/usr/local/etc ..
-
-# build and install
+# build
 
 make -j 8
-make install
 
-# automake
+if [ $? -ne 0 ]; then
+    echo
+    echo "BUILD FAILED"
+    exit 1
+fi
 
-#/usr/bin/aclocal
-#/usr/bin/autoconf
+echo
+echo "BUILD SUCCESSFUL"
 
-#export CC=clang
-#export CXX=clang
-#export CXXFLAGS='-fPIC'
-#export CFLAGS='-fPIC'
-#export boost=1_63_0
-#export boost=1_57_0
-#export boost_prefix=${HOME}/spol_control/boost_${boost}
+# install
 
-#mkdir -p ${PREFIX}/etc
-#echo prefix=${PREFIX}
-#echo config_dir=${PREFIX}/etc
+echo
+echo "The package must be installed as root."
+echo
+echo "An installation attempt will be made below using sudo:"
+echo
 
-#./configure --prefix=${PREFIX} --with-wt-version=${wt}
+if sudo make install; then
+    echo
+    echo "INSTALL SUCCESSFUL"
+    exit 0
+fi
 
-#make fetch 
-#make -k deps
-#make -k deps-install
-#make  -k wt
-#make -k wt-install
+echo
+echo "INSTALLATION USING SUDO FAILED"
+echo
+echo "To install manually, execute the commands below as the root user:"
+echo
+echo "    # cd ${PWD}"
+echo "    # make install"
+exit 1
