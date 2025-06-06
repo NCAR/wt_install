@@ -1,12 +1,14 @@
 #!/bin/bash
 
-export wt_version=3.7
+# Wt version to download. For AlmaLinux 9, version 4.8 is known
+# to work.
+export wt_version=4.8
 echo 'wt_version = ' ${wt_version}
 export PREFIX=/usr/local
 
-# go to dir
-
-cd ~/git/spol-control/deps/wt_install
+# Download and build Wt under this script's directory
+scriptdir=`dirname "$(realpath "$0")"`
+cd $scriptdir
 
 # Clone Wt's <version>-release branch into directory wt-<version>, if
 # we haven't already
@@ -22,12 +24,12 @@ fi
 
 # Run cmake to create and populate the <wd_srcdir>/build dir
 #
-# Note that we add BOOST_BIND_GLOBAL_PLACEHOLDERS to the compile flags
-# to avoid deprecation warnings that Wt 3 triggers when building
-# against modern versions of boost::bind
+# For AlmaLinux 9, we need to explicitly disable Qt6 support in Wt,
+# and the "qt5-devel" package must be installed.
 
 cd ${wt_srcdir}
-cmake -DCMAKE_INSTALL_PREFIX=/usr/local -DCONFIGDIR=/usr/local/etc -DCMAKE_CXX_FLAGS=-DBOOST_BIND_GLOBAL_PLACEHOLDERS -S . -B build
+cmake -DCMAKE_INSTALL_PREFIX=$PREFIX -DENABLE_QT6=OFF
+      -S . -B build
 cd build
 
 # build
