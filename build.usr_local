@@ -1,8 +1,8 @@
 #!/bin/bash
 
-# Wt version to download. For AlmaLinux 9, version 4.12 is known
-# to work.
-export wt_version=4.12
+# Wt version to download and build. For AlmaLinux 9, version 3.7 is known
+# to work, while Wt 4.x does not.
+export wt_version=3.7
 echo 'wt_version = ' ${wt_version}
 export PREFIX=/usr/local
 
@@ -25,11 +25,11 @@ fi
 # Run cmake to create and populate the <wt_srcdir>/build dir
 #
 # To avoid a Wt cmake issue under AlmaLinux 9 when both Qt5 and Qt6 are
-# installed on the system, we explicitly force Wt to build *only* against Qt6,
+# installed on the system, we explicitly force Wt to build *only* against Qt5,
 # rather than the default action of trying to build against both Qt5 and Qt6.
 
 cd ${wt_srcdir}
-cmake -DCMAKE_INSTALL_PREFIX=$PREFIX -DENABLE_QT5=OFF -DENABLE_QT6=ON -S . -B build
+cmake -DCMAKE_INSTALL_PREFIX=$PREFIX -DENABLE_QT5=ON -DENABLE_QT6=OFF -S . -B build
 
 # Execute the build
 cd build
